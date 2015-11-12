@@ -78,7 +78,7 @@
               <?php } ?>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="display: none">
             <label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
             <div class="col-sm-10">
               <input type="text" name="fax" value="<?php echo $fax; ?>" placeholder="<?php echo $entry_fax; ?>" id="input-fax" class="form-control" />
@@ -246,31 +246,15 @@
               <input type="text" name="company" value="<?php echo $company; ?>" placeholder="<?php echo $entry_company; ?>" id="input-company" class="form-control" />
             </div>
           </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-address-1"><?php echo $entry_address_1; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="address_1" value="<?php echo $address_1; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-address-1" class="form-control" />
-              <?php if ($error_address_1) { ?>
-              <div class="text-danger"><?php echo $error_address_1; ?></div>
-              <?php } ?>
-            </div>
-          </div>
-          <div class="form-group">
+          
+          <div class="form-group" style="display: none">
             <label class="col-sm-2 control-label" for="input-address-2"><?php echo $entry_address_2; ?></label>
             <div class="col-sm-10">
               <input type="text" name="address_2" value="<?php echo $address_2; ?>" placeholder="<?php echo $entry_address_2; ?>" id="input-address-2" class="form-control" />
             </div>
           </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city" class="form-control" />
-              <?php if ($error_city) { ?>
-              <div class="text-danger"><?php echo $error_city; ?></div>
-              <?php } ?>
-            </div>
-          </div>
-          <div class="form-group required">
+          
+          <div class="form-group">
             <label class="col-sm-2 control-label" for="input-postcode"><?php echo $entry_postcode; ?></label>
             <div class="col-sm-10">
               <input type="text" name="postcode" value="<?php echo $postcode; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-postcode" class="form-control" />
@@ -279,7 +263,7 @@
               <?php } ?>
             </div>
           </div>
-          <div class="form-group required">
+          <div class="form-group required" style="display: none">
             <label class="col-sm-2 control-label" for="input-country"><?php echo $entry_country; ?></label>
             <div class="col-sm-10">
               <select name="country_id" id="input-country" class="form-control">
@@ -304,6 +288,24 @@
               </select>
               <?php if ($error_zone) { ?>
               <div class="text-danger"><?php echo $error_zone; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+	  <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city" class="form-control" />
+              <?php if ($error_city) { ?>
+              <div class="text-danger"><?php echo $error_city; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+	  <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-address-1"><?php echo $entry_address_1; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="address_1" value="<?php echo $address_1; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-address-1" class="form-control" />
+              <?php if ($error_address_1) { ?>
+              <div class="text-danger"><?php echo $error_address_1; ?></div>
               <?php } ?>
             </div>
           </div>
@@ -482,7 +484,7 @@
             </div>
           </div>
         </fieldset>
-        <fieldset>
+	  <fieldset style="display: none">
           <legend><?php echo $text_newsletter; ?></legend>
           <div class="form-group">
             <label class="col-sm-2 control-label"><?php echo $entry_newsletter; ?></label>
@@ -536,11 +538,11 @@ $('#account .form-group[data-sort]').detach().each(function() {
 		$('#account .form-group').eq($(this).attr('data-sort')).before(this);
 	}
 
-	if ($(this).attr('data-sort') > $('#account .form-group').length) {
+	if ($(this).attr('data-sort') >= $('#account .form-group').length) {
 		$('#account .form-group:last').after(this);
 	}
 
-	if ($(this).attr('data-sort') <= -$('#account .form-group').length) {
+	if ($(this).attr('data-sort') < -$('#account .form-group').length) {
 		$('#account .form-group:first').before(this);
 	}
 });
