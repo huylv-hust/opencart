@@ -2,13 +2,13 @@
 class ControllerToolErrorLog extends Controller {
 	private $error = array();
 
-	public function index() {		
+	public function index() {
 		$this->load->language('tool/error_log');
-		
+
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		
+
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_confirm'] = $this->language->get('text_confirm');
 
@@ -98,7 +98,7 @@ class ControllerToolErrorLog extends Controller {
 
 		$this->response->setOutput(file_get_contents(DIR_LOGS . $this->config->get('config_error_filename'), FILE_USE_INCLUDE_PATH, null));
 	}
-	
+
 	public function clear() {
 		$this->load->language('tool/error_log');
 
