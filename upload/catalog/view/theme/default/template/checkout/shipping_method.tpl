@@ -3,21 +3,49 @@
 <?php } ?>
 <?php if ($shipping_methods) { ?>
 <p><?php echo $text_shipping_method; ?></p>
-<?php foreach ($shipping_methods as $shipping_method) { ?>
+<?php foreach ($shipping_methods as $shipping_method) {
+
+?>
 <p><strong><?php echo $shipping_method['title']; ?></strong></p>
 <?php if (!$shipping_method['error']) { ?>
-<?php foreach ($shipping_method['quote'] as $quote) { ?>
+
+<?php
+    $ship_free = false;
+    foreach ($shipping_method['quote'] as $quote) {
+    if($quote['code'] == 'free.free' && $quote['cost'] == 0) 
+    {
+        echo '<div class="radio"><label><input type="radio" name="shipping_method" value="'.$quote['code'].'" checked="checked" />';
+        echo $quote['title'].' - '.$quote['text'];
+        echo '</label></div>';
+        $ship_free = true;
+        break;
+    }
+}
+
+if($ship_free) break;
+?>
+
+<?php 
+if($ship_free == false){
+foreach ($shipping_method['quote'] as $quote) { 
+?>
+
 <div class="radio">
   <label>
-    <?php if ($quote['code'] == $code || !$code) { ?>
+    <?php if ($quote['code'] == $code || !$code){ ?>
+    
     <?php $code = $quote['code']; ?>
-    <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" checked="checked" />
+        <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" checked="checked" />
     <?php } else { ?>
-    <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" />
+        <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" />
     <?php } ?>
-    <?php echo $quote['title']; ?> - <?php echo $quote['text']; ?></label>
+    
+    <?php echo $quote['title']; ?> - <?php echo $quote['text']; ?>
+  
+  </label>
 </div>
-<?php } ?>
+<?php } }?>
+
 <?php } else { ?>
 <div class="alert alert-danger"><?php echo $shipping_method['error']; ?></div>
 <?php } ?>
