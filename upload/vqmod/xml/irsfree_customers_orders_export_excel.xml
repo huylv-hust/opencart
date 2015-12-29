@@ -1,0 +1,333 @@
+
+<modification>
+
+	<id>Export customer list and order list</id>
+	<version>2.0</version>
+	<vqmver>2.4.1</vqmver>
+	
+	<!-- Language -->
+
+	<file path="admin/language/english/default.php">
+		<operation>
+			<search position="after"><![CDATA[$_['button_approve']                = 'Approve';]]></search>
+			<add><![CDATA[$_['button_export']                = 'Export';]]></add>
+		</operation>
+	</file>
+       
+<!-- Order list -->
+
+    <!-- Controller --> 
+  
+    <file path="admin/controller/sale/order.php">
+		<operation>
+			<search position="before"><![CDATA[$data['invoice'] = $this->url->link('sale/order/invoice', 'token=' . $this->session->data['token'], 'SSL');]]></search>
+			<add><![CDATA[$data['export'] = $this->url->link('sale/order/export', 'token=' . $this->session->data['token'] . $url, 'SSL');]]></add>
+		</operation>
+        
+        <operation>
+			<search position="before"><![CDATA[$data['button_invoice_print'] = $this->language->get('button_invoice_print');]]></search>
+            <add><![CDATA[$data['button_export'] = $this->language->get('button_export');]]></add>
+		</operation>
+  
+    	<operation>
+			<search position="before"><![CDATA[protected function getList() {]]></search>
+	        <add><![CDATA[public function export() {
+        
+		$data = array();
+      
+        $orders = array();
+        
+        $orders_column=array();
+        
+        $this->load->model('sale/order');
+        
+        $results = $this->model_sale_order->getOrdersexport($data);
+        
+        $orders_list = array();
+        
+        	foreach ($results as $result)
+        	{
+				$usami_brach_code = substr( $result['宇佐美支店コード'],  0, 6);
+
+				$orders_list[] = array(
+					'1'  => '',
+					'2'  => $result['部署名'],
+					'3'  => '',
+					'4'  => $usami_brach_code,
+					'5'  => $result['宇佐美カード上6桁'],
+					'6'  => $result['宇佐美カード下5桁'],
+					'7'  => $result['shipping_company'],
+					'8'  => $result['部署'],
+					'9'  => '',
+					'10' => '',
+					'11' => $result['order_product_id'],
+					'12' => $result['model'],
+					'13' => $result['name'],
+					'14' => '',
+					'15' => '',
+					'16' => $result['jan'],
+					'17' => $result['商品分類名'],
+					'18' => $result['商品コード'],
+					'19' => $result['荷姿コード'],
+					'20' => $result['quantity'],
+					'21' => $result['宇佐美仕入価格'],
+					'22' => $result['quantity'] * $result['宇佐美仕入価格'],
+					'23' => $result['price'],
+					'24' => $result['total'],
+					'25' => $result['shipping_postcode'],
+					'26' => $result['shipping_zone'] . ' ' . $result['shipping_city'] . ' ' . $result['shipping_address_1'] . ' ' . $result['shipping_address_2'],
+				);
+			}
+        
+        $orders_column = array('伝票日付', '得意先名称２', 'ジェット納品先コード', '宇佐美販売店コード', '宇佐美支店コード', '宇佐美顧客コード', '納品先名１', '納品先名２', '伝票番号', '処理連番', '行', 'ジェット商品コード', 'ジェット商品名', '相手商品コード', '相手商品名', 'JANコード', '宇佐美商品分類', '宇佐美商品CD', '宇佐美荷姿CD', '売上数量', '売上単価', '売上金額', 'カタログ売価', 'カタログ金額', '配達先郵便番号','配達先住所');
+            
+        $orders[0] = $orders_column;
+
+        foreach($orders_list as $orders_row)
+        {
+            $orders[] = $orders_row;
+        }
+
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=order_'.date('Ymd').'.csv');
+		$fp = fopen('php://output', 'w');
+		fputs($fp, $bom = (chr(0xEF).chr(0xBB).chr(0xBF)));
+		foreach($orders as $k => $v)
+		{
+		fputcsv($fp, $v);
+		}
+
+		fclose($fp);
+		exit();
+
+			}]]></add>
+		</operation>
+        
+	</file>
+
+<!-- Model -->
+
+	<file path="admin/model/sale/order.php">
+		<operation>
+			<search position="before"><![CDATA[public function getOrders($data = array()) {]]></search>
+			<add><![CDATA[public function getOrdersexport($data = array()) {
+ 		$sql = "SELECT oc_order.*, oc_order_product.product_id, oc_order_product.order_product_id, oc_order_product.model, oc_order_product.quantity, oc_order_product.price, oc_order_product.total, oc_product.jan, oc_product_description.name FROM oc_order LEFT JOIN oc_order_product ON oc_order.order_id = oc_order_product.order_id LEFT JOIN oc_product ON oc_order_product.product_id = oc_product.product_id LEFT JOIN oc_product_description ON oc_order_product.product_id = oc_product_description.product_id ORDER BY oc_order.date_added DESC ";
+		$query = $this->db->query($sql)->rows;
+		//oc_product_attribute.text -> 商品分類名...
+		$arr_order = array();
+		$arr_custom_field_json = array();
+                $arr_shipping_custom_field_json = array();
+		foreach ($query as $key => $data)
+		{
+                    $arr_order[$data['order_id']] = $data;
+                    $arr_custom_field_json[$data['order_id']] = array();
+                    if($data['custom_field'])
+                        $arr_custom_field_json[$data['order_id']] = json_decode($data['custom_field'],true);
+                    
+                    $arr_shipping_custom_field_json[$data['order_id']] = array();
+                    if($data['shipping_custom_field'])
+                        $arr_shipping_custom_field_json[$data['order_id']] = json_decode($data['shipping_custom_field'],true);   
+		}
+                
+                foreach ($query as $key => $data)
+		{
+                    $arr_order[$data['order_id']] = $data;
+                    $arr_custom_field_json[$data['order_id']] = array();
+                    if($data['custom_field'])
+                        $arr_custom_field_json[$data['order_id']] = json_decode($data['custom_field'],true);
+                    
+                    $arr_shipping_custom_field_json[$data['order_id']] = array();
+                    
+                    if($data['shipping_custom_field'])
+                        $arr_shipping_custom_field_json[$data['order_id']] = json_decode($data['shipping_custom_field'],true);  
+                    
+                    $product_id = $data['product_id'];
+                    $sql1 = "SELECT * FROM oc_product_attribute WHERE product_id = " . $product_id;
+                    $query1 = $this->db->query($sql1)->rows;
+                    foreach ($query1 as $key =>$v)
+                    {
+                            $product[$v['product_id']][] = $v['attribute_id'];
+                            $tmp_text[$v['product_id']][] = $v['text'];
+                    }     
+		}
+                //product
+		foreach($product as $pk => $pv)
+		{
+                    $text[$pk]['商品分類名'] = '';
+                    $text[$pk]['商品コード'] = '';
+                    $text[$pk]['荷姿コード'] = '';
+                    $text[$pk]['宇佐美仕入価格'] = '';
+                    foreach($pv as $pvk => $pvv)
+                    {
+                        $attribute_id = $pvv;
+                        $sql2 = "SELECT name FROM oc_attribute_description WHERE attribute_id = " . $attribute_id;
+                        $query2 = $this->db->query($sql2)->rows;
+
+                        if ($query2[0]['name'] ==  '商品分類名')
+                        {
+                                $text[$pk]['商品分類名'] = $tmp_text[$pk][$pvk];
+                        }
+
+                        if ($query2[0]['name'] ==  '商品コード')
+                        {
+                                $text[$pk]['商品コード'] = $tmp_text[$pk][$pvk];
+                        }
+
+                        if ($query2[0]['name'] ==  '荷姿コード')
+                        {
+                                $text[$pk]['荷姿コード'] = $tmp_text[$pk][$pvk];
+                        }
+                        if ($query2[0]['name'] ==  '宇佐美仕入価格')
+                        {
+                                $text[$pk]['宇佐美仕入価格'] = $tmp_text[$pk][$pvk];
+                        }
+                    }
+		}
+                
+                // oc_customer.custom_field -> 宇佐美カード上6桁...
+		$array_name_customer = array();
+		foreach ($arr_custom_field_json as $order_id => $row_cus)
+		{
+                    $array_name_customer[$order_id]['宇佐美カード上6桁'] ='';
+                    $array_name_customer[$order_id]['宇佐美カード下5桁'] ='';
+                    $array_name_customer[$order_id]['宇佐美支店コード'] ='';
+
+                    if(count($row_cus))
+                    {
+                        foreach($row_cus as $field_id => $name)
+                        {
+                            $sql2 = "SELECT name FROM oc_custom_field_description WHERE custom_field_id = " . $field_id;
+                            $query2 = $this->db->query($sql2)->rows;
+                            if(count($query2))
+                            {
+                                $row = current($query2);
+
+                                if ($row['name'] ==  '宇佐美カード上6桁')
+                                {
+                                    $array_name_customer[$order_id]['宇佐美カード上6桁'] = $name;
+                                }
+                                if ($row['name'] ==  '宇佐美カード下5桁')
+                                {
+                                    $array_name_customer[$order_id]['宇佐美カード下5桁'] = $name;
+                                }
+                                if ($row['name'] ==  '宇佐美支店コード')
+                                {
+                                    $array_name_customer[$order_id]['宇佐美支店コード'] = $name;
+                                }
+                            }
+                        }
+                    }
+		}
+
+            // Shipping                
+            $shipping = array();
+            foreach ($arr_shipping_custom_field_json as $order_id => $row_cus)
+            {
+                $shipping[$order_id]['部署名'] = '';
+                if(count($row_cus))
+                {
+                    foreach($row_cus as $field_id => $name)
+                    {
+                        $sql3 = "SELECT name FROM oc_custom_field_description WHERE custom_field_id = " . $field_id;
+                        $query3 = $this->db->query($sql3)->rows;
+
+                        if(count($query3))
+                        {
+                            $row = current($query3);
+
+                            if ($row['name'] ==  '部署名 1')
+                            {
+                                $shipping[$order_id]['部署名'] = $name;
+                            } 
+                        } 
+                    }
+                }
+
+             }
+            //oc_address.custom_field -> 部署 (複数ある場合はdefault addressのもの)
+            $address_field_id = array();
+            foreach($arr_order as $order_id => $data)
+            {
+                $customer_id = $data['customer_id'];
+                $sql4 = "SELECT * FROM oc_address WHERE customer_id = " . $customer_id;
+                $query4 = $this->db->query($sql4)->rows;
+                foreach ($query4 as $k =>$v)
+                {
+                    $custom_field = array();
+                    if($v['custom_field'])
+                    $custom_field = json_decode($v['custom_field'], true);
+
+                    if(count($custom_field))
+                    {
+
+
+                        foreach ($custom_field as $k1 => $v1)
+                        {
+                            $address_field_id[$order_id][$k1] = $v1;
+                        }
+                    }
+                    else
+                    {
+                            $address_field_id[$order_id]['0'] = '0';
+                    }
+                }                	
+            }
+            $department = array();
+            foreach ($address_field_id as $order_id => $row_add)
+            {
+                $department[$order_id]['部署名'] = '';
+                foreach($row_add as $key => $val)
+                {
+                    if($val)
+                    {
+
+                        $sql6 = "SELECT name FROM oc_custom_field_description WHERE custom_field_id = " . $key;
+                        $query6 = $this->db->query($sql6)->rows;	             
+
+                        if(count($query6))
+                        if ($query6[0]['name'] ==  '部署名 1')
+                        {
+                            $department[$order_id]['部署名'] = $address_field_id[$order_id][$key];
+                        }
+                        else
+                        {
+                                $department[$order_id]['部署名'] = '';
+                        }
+                    }
+                }
+            }
+            
+            foreach($query as $k => $data)
+            {
+                $query[$k]['商品分類名'] = isset($text[$data['product_id']]['商品分類名']) ? $text[$data['product_id']]['商品分類名'] : '' ;
+                $query[$k]['商品コード'] = isset($text[$data['product_id']]['商品コード']) ? $text[$data['product_id']]['商品コード'] : '' ;
+                $query[$k]['荷姿コード'] = isset($text[$data['product_id']]['荷姿コード']) ? $text[$data['product_id']]['荷姿コード'] : '';
+                $query[$k]['宇佐美仕入価格'] = isset($text[$data['product_id']]['宇佐美仕入価格']) ? $text[$data['product_id']]['宇佐美仕入価格'] : '';
+                $query[$k]['宇佐美カード上6桁'] = $array_name_customer[$data['order_id']]['宇佐美カード上6桁'];
+                $query[$k]['宇佐美カード下5桁'] = $array_name_customer[$data['order_id']]['宇佐美カード下5桁'];
+                $query[$k]['宇佐美支店コード'] = $array_name_customer[$data['order_id']]['宇佐美支店コード'];
+                $query[$k]['部署名'] = isset($department[$data['order_id']]['部署名']) ? $department[$data['order_id']]['部署名'] : '';
+                $query[$k]['部署'] = isset($shipping[$data['order_id']]['部署名']) ? $shipping[$data['order_id']]['部署名'] : '';
+
+            }
+
+		//var_dump($custom_field_id);
+		//var_dump($arr_order);
+		//die;
+		
+		return $query;
+
+			}]]></add>
+		</operation>
+	</file>
+
+<!-- View -->
+
+	<file path="admin/view/template/sale/order_list.tpl">
+		<operation>
+			<search position="before"><![CDATA[<button type="submit" id="button-shipping" form="form-order" formaction="<?php echo $shipping; ?>" data-toggle="tooltip" title="<?php echo $button_shipping_print; ?>" class="btn btn-info"><i class="fa fa-truck"></i></button>]]></search>
+			<add><![CDATA[<a href="<?php echo $export; ?>" data-toggle="tooltip" title="<?php echo "Export"; ?>" class="btn btn-success"><i class="glyphicon glyphicon-export"></i></a>]]></add>
+		</operation>
+	</file>
+	
+</modification>

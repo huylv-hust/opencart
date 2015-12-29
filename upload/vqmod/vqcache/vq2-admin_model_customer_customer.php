@@ -149,6 +149,7 @@ $sql = "SELECT c.customer_id, CONCAT(c.firstname, ' ', c.lastname) AS name, c.em
 		}		
 
 		$query = $this->db->query($sql);
+		var_dump($query);die;
         
 		return $query->rows;	
 	}
