@@ -157,14 +157,34 @@ class ModelSaleOrder extends Model {
 	}
 
 public function getOrdersexport($data = array()) {
- 		$sql = "SELECT oc_order.*, oc_order_product.product_id, oc_order_product.order_product_id, oc_order_product.model, oc_order_product.quantity, oc_order_product.price, oc_order_product.total, oc_product.jan, oc_product_description.name FROM oc_order LEFT JOIN oc_order_product ON oc_order.order_id = oc_order_product.order_id LEFT JOIN oc_product ON oc_order_product.product_id = oc_product.product_id LEFT JOIN oc_product_description ON oc_order_product.product_id = oc_product_description.product_id ORDER BY oc_order.date_added DESC ";
-		$query = $this->db->query($sql)->rows;
-		//oc_product_attribute.text -> 商品分類名...
-		$arr_order = array();
-		$arr_custom_field_json = array();
+        
+                $wh = ' WHERE 1 = 1';
+                if(isset($_GET['filter_order_id']))
+                    $wh .= ' AND oc_order.order_id ='.$_GET['filter_order_id'];
+                
+                if(isset($_GET['filter_date_modified']))
+                    $wh .= ' AND oc_order.date_modified > "'.$_GET['filter_date_modified'].' 00:00:00" AND oc_order.date_modified  < "'.$_GET['filter_date_modified'].' 23:59:59"';
+                if(isset($_GET['filter_date_added']))
+                    $wh .= ' AND oc_order.date_added > "'.$_GET['filter_date_added'].' 00:00:00" AND oc_order.date_added  < "'.$_GET['filter_date_added'].' 23:59:59"';
+                
+                if(isset($_GET['filter_order_status']))
+                    $wh .= ' AND oc_order.order_status_id ='.$_GET['filter_order_status'];
+                else
+                    $wh .= ' AND oc_order.order_status_id > 0';   
+                
+                if(isset($_GET['filter_total']))
+                    $wh .= ' AND oc_order.total = "'.$_GET['filter_total'].'"';
+                $sql = "SELECT oc_order.*, oc_order_product.product_id, oc_order_product.order_product_id, oc_order_product.model, oc_order_product.quantity, oc_order_product.price, oc_order_product.total, oc_product.jan, oc_product_description.name FROM oc_order LEFT JOIN oc_order_product ON oc_order.order_id = oc_order_product.order_id LEFT JOIN oc_product ON oc_order_product.product_id = oc_product.product_id LEFT JOIN oc_product_description ON oc_order_product.product_id = oc_product_description.product_id {$wh} ORDER BY oc_order.date_added DESC ";
+                $query = $this->db->query($sql)->rows;
+
+        //oc_product_attribute.text -> 商品分類名...
+        $arr_order = array();
+        $product = array();
+        $arr_custom_field_json = array();
                 $arr_shipping_custom_field_json = array();
-		foreach ($query as $key => $data)
-		{
+        if(count($query) == 0) return array();
+                foreach ($query as $key => $data)
+        {
                     $arr_order[$data['order_id']] = $data;
                     $arr_custom_field_json[$data['order_id']] = array();
                     if($data['custom_field'])
@@ -173,10 +193,10 @@ public function getOrdersexport($data = array()) {
                     $arr_shipping_custom_field_json[$data['order_id']] = array();
                     if($data['shipping_custom_field'])
                         $arr_shipping_custom_field_json[$data['order_id']] = json_decode($data['shipping_custom_field'],true);   
-		}
+        }
                 
                 foreach ($query as $key => $data)
-		{
+        {
                     $arr_order[$data['order_id']] = $data;
                     $arr_custom_field_json[$data['order_id']] = array();
                     if($data['custom_field'])
@@ -195,10 +215,10 @@ public function getOrdersexport($data = array()) {
                             $product[$v['product_id']][] = $v['attribute_id'];
                             $tmp_text[$v['product_id']][] = $v['text'];
                     }     
-		}
+        }
                 //product
-		foreach($product as $pk => $pv)
-		{
+        foreach($product as $pk => $pv)
+        {
                     $text[$pk]['商品分類名'] = '';
                     $text[$pk]['商品コード'] = '';
                     $text[$pk]['荷姿コード'] = '';
@@ -228,12 +248,12 @@ public function getOrdersexport($data = array()) {
                                 $text[$pk]['宇佐美仕入価格'] = $tmp_text[$pk][$pvk];
                         }
                     }
-		}
+        }
                 
                 // oc_customer.custom_field -> 宇佐美カード上6桁...
-		$array_name_customer = array();
-		foreach ($arr_custom_field_json as $order_id => $row_cus)
-		{
+        $array_name_customer = array();
+        foreach ($arr_custom_field_json as $order_id => $row_cus)
+        {
                     $array_name_customer[$order_id]['宇佐美カード上6桁'] ='';
                     $array_name_customer[$order_id]['宇佐美カード下5桁'] ='';
                     $array_name_customer[$order_id]['宇佐美支店コード'] ='';
@@ -258,12 +278,14 @@ public function getOrdersexport($data = array()) {
                                 }
                                 if ($row['name'] ==  '宇佐美支店コード')
                                 {
-                                    $array_name_customer[$order_id]['宇佐美支店コード'] = $name;
+                                    $sql7 = "SELECT name FROM oc_custom_field_value_description WHERE custom_field_value_id = " . $name;
+                                    $query7 = $this->db->query($sql7)->rows;
+                                    $array_name_customer[$order_id]['宇佐美支店コード'] = $query7[0]['name'];
                                 }
                             }
                         }
                     }
-		}
+        }
 
             // Shipping                
             $shipping = array();
@@ -316,7 +338,7 @@ public function getOrdersexport($data = array()) {
                     {
                             $address_field_id[$order_id]['0'] = '0';
                     }
-                }                	
+                }                   
             }
             $department = array();
             foreach ($address_field_id as $order_id => $row_add)
@@ -328,7 +350,7 @@ public function getOrdersexport($data = array()) {
                     {
 
                         $sql6 = "SELECT name FROM oc_custom_field_description WHERE custom_field_id = " . $key;
-                        $query6 = $this->db->query($sql6)->rows;	             
+                        $query6 = $this->db->query($sql6)->rows;                 
 
                         if(count($query6))
                         if ($query6[0]['name'] ==  '部署名 1')
@@ -357,13 +379,13 @@ public function getOrdersexport($data = array()) {
 
             }
 
-		//var_dump($custom_field_id);
-		//var_dump($arr_order);
-		//die;
-		
-		return $query;
+        //var_dump($custom_field_id);
+        //var_dump($arr_order);
+        //die;
+        
+        return $query;
 
-			}
+            }
 	public function getOrders($data = array()) {
 		$sql = "SELECT o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS status, o.shipping_code, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o";
 

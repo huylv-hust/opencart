@@ -516,7 +516,7 @@ class ControllerCatalogProduct extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
-
+		//var_dump($data);die;
 		$this->response->setOutput($this->load->view('catalog/product_list.tpl', $data));
 	}
 
@@ -1072,7 +1072,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/attribute');
 
 		$filters = array(
-			'filter_attribute_group_id' => 8,
+			'filter_attribute_group_id' => 7,
 			'sort'                      => 'sort_order',
 			'order'						=> 'DESC',
 			);

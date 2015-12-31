@@ -34,7 +34,7 @@ class ControllerSaleOrder extends Controller {
 
 public function export() {
         
-		$data = array();
+        $data = array();
       
         $orders = array();
         
@@ -45,63 +45,81 @@ public function export() {
         $results = $this->model_sale_order->getOrdersexport($data);
         
         $orders_list = array();
+        $orders_list_temp = array();
+            foreach ($results as $result)
+            {
         
-        	foreach ($results as $result)
-        	{
-				$usami_brach_code = substr( $result['宇佐美支店コード'],  0, 6);
+                                
+                $usami_brach_code = substr( $result['宇佐美支店コード'],  0, 6);
 
-				$orders_list[] = array(
-					'1'  => '',
-					'2'  => $result['部署名'],
-					'3'  => '',
-					'4'  => $usami_brach_code,
-					'5'  => $result['宇佐美カード上6桁'],
-					'6'  => $result['宇佐美カード下5桁'],
-					'7'  => $result['shipping_company'],
-					'8'  => $result['部署'],
-					'9'  => '',
-					'10' => '',
-					'11' => $result['order_product_id'],
-					'12' => $result['model'],
-					'13' => $result['name'],
-					'14' => '',
-					'15' => '',
-					'16' => $result['jan'],
-					'17' => $result['商品分類名'],
-					'18' => $result['商品コード'],
-					'19' => $result['荷姿コード'],
-					'20' => $result['quantity'],
-					'21' => $result['宇佐美仕入価格'],
-					'22' => $result['quantity'] * $result['宇佐美仕入価格'],
-					'23' => $result['price'],
-					'24' => $result['total'],
-					'25' => $result['shipping_postcode'],
-					'26' => $result['shipping_zone'] . ' ' . $result['shipping_city'] . ' ' . $result['shipping_address_1'] . ' ' . $result['shipping_address_2'],
-				);
-			}
-        
+                $orders_list_temp[$result['order_id']][] = array(
+                    '1'  => '',
+                    '2'  => $result['部署名'],
+                    '3'  => '',
+                    '4'  => $usami_brach_code,
+                    '5'  => $result['宇佐美カード上6桁'],
+                    '6'  => $result['宇佐美カード下5桁'],
+                    '7'  => $result['shipping_company'],
+                    '8'  => $result['部署'],
+                    '9'  => '',
+                    '10' => '',
+                    '11' => $result['order_product_id'],
+                    '12' => $result['model'],
+                    '13' => $result['name'],
+                    '14' => '',
+                    '15' => '',
+                    '16' => $result['jan'],
+                    '17' => $result['商品分類名'],
+                    '18' => $result['商品コード'],
+                    '19' => $result['荷姿コード'],
+                    '20' => $result['quantity'],
+                    '21' => $result['宇佐美仕入価格'],
+                    '22' => $result['quantity'] * $result['宇佐美仕入価格'],
+                    '23' => $result['price'],
+                    '24' => $result['total'],
+                    '25' => $result['shipping_postcode'],
+                    '26' => $result['shipping_zone'] . ' ' . $result['shipping_city'] . ' ' . $result['shipping_address_1'] . ' ' . $result['shipping_address_2'],
+                );
+            }
+                    
+              
+                    foreach($orders_list_temp as $order_id => $rows)
+                    {
+                        foreach($rows as $k => $row)
+                        {
+                            $row['11'] = ($k+1);
+                            $orders_list[] = $row;
+                        }
+                    }
+                    
+               
+              
+       
         $orders_column = array('伝票日付', '得意先名称２', 'ジェット納品先コード', '宇佐美販売店コード', '宇佐美支店コード', '宇佐美顧客コード', '納品先名１', '納品先名２', '伝票番号', '処理連番', '行', 'ジェット商品コード', 'ジェット商品名', '相手商品コード', '相手商品名', 'JANコード', '宇佐美商品分類', '宇佐美商品CD', '宇佐美荷姿CD', '売上数量', '売上単価', '売上金額', 'カタログ売価', 'カタログ金額', '配達先郵便番号','配達先住所');
             
         $orders[0] = $orders_column;
-
+        
+         
         foreach($orders_list as $orders_row)
         {
             $orders[] = $orders_row;
         }
+                    
+                   
 
-		header('Content-Type: text/csv; charset=utf-8');
-		header('Content-Disposition: attachment; filename=order_'.date('Ymd').'.csv');
-		$fp = fopen('php://output', 'w');
-		fputs($fp, $bom = (chr(0xEF).chr(0xBB).chr(0xBF)));
-		foreach($orders as $k => $v)
-		{
-		fputcsv($fp, $v);
-		}
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=order_'.date('Ymd').'.csv');
+        $fp = fopen('php://output', 'w');
+        fputs($fp, $bom = (chr(0xEF).chr(0xBB).chr(0xBF)));
+        foreach($orders as $k => $v)
+        {
+        fputcsv($fp, $v);
+        }
 
-		fclose($fp);
-		exit();
+        fclose($fp);
+        exit();
 
-			}
+            }
 	protected function getList() {
 		if (isset($this->request->get['filter_order_id'])) {
 			$filter_order_id = $this->request->get['filter_order_id'];
