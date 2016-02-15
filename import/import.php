@@ -176,7 +176,7 @@ class Import
 			if($row['19'])
 				$description .= '●用途&lt;br&gt;'.$row['19'];
 			if($row['20'])
-				$description .= '&lt;br&gt;●特長&lt;br&gt;'.str_replace('。', '。&lt;br&gt;', $row['20']);
+				$description .= '&lt;br&gt;●特長&lt;br&gt;'.trim(str_replace('。', '。&lt;br&gt;', $row['20']), '&lt;br&gt;');
 			if($row['21'])
 				$description .= '&lt;br&gt;●注意&lt;br&gt;'.$row['21'];
 			if($row['22'])
@@ -274,7 +274,6 @@ class Import
 				);
 				self::$db->insert('oc_product_attribute',$arr_product_attribute_6);
 			}
-			//////////////////////////////////////
 			if(isset($list_attribute['カタログ掲載ページ番号']['attribute_id']))
 			{
 				$arr_product_attribute_7 = array(

@@ -6895,3 +6895,11 @@
 2015-11-10 7:59:09 - PHP Notice:  Undefined variable: product_id in E:\Xampp\htdocs\opencart\upload\catalog\controller\account\wishlist.php on line 115
 2015-11-11 3:53:01 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
 2016-02-15 10:39:04 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 10:50:37 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 11:19:46 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 11:26:43 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 11:26:59 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 11:27:12 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 11:30:03 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 11:32:14 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 11:32:17 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
