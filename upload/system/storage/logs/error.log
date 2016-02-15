@@ -6894,10 +6894,4 @@
 2015-11-10 7:58:27 - PHP Notice:  Undefined variable: product_id in E:\Xampp\htdocs\opencart\upload\catalog\controller\account\wishlist.php on line 115
 2015-11-10 7:59:09 - PHP Notice:  Undefined variable: product_id in E:\Xampp\htdocs\opencart\upload\catalog\controller\account\wishlist.php on line 115
 2015-11-11 3:53:01 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
-2016-02-15 9:28:04 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
-2016-02-15 9:31:43 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
-2016-02-15 9:40:29 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
-2016-02-15 9:43:30 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
-2016-02-15 9:49:55 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
-2016-02-15 10:00:05 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
-2016-02-15 10:02:58 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-15 10:39:04 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
