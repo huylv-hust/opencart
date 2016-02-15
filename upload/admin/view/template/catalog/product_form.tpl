@@ -443,20 +443,20 @@
                     <?php $attribute_row = 0;?>
                     <?php foreach ($product_attributes as $product_attribute) { ?>
                     <tr id="attribute-row<?php echo $attribute_row; ?>">
-			<td class="text-left" style="width: 40%;"><input readonly="true" type="text" name="product_attribute[<?php echo $attribute_row; ?>][name]" value="<?php echo $product_attribute['name']; ?>" placeholder="<?php echo $entry_attribute; ?>" class="form-control" />
+                      <td class="text-left" style="width: 40%;"><input type="text" name="product_attribute[<?php echo $attribute_row; ?>][name]" value="<?php echo $product_attribute['name']; ?>" placeholder="<?php echo $entry_attribute; ?>" class="form-control" />
                         <input type="hidden" name="product_attribute[<?php echo $attribute_row; ?>][attribute_id]" value="<?php echo $product_attribute['attribute_id']; ?>" /></td>
                       <td class="text-left"><?php foreach ($languages as $language) { ?>
                         <div class="input-group"><span class="input-group-addon"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /></span>
                           <textarea name="product_attribute[<?php echo $attribute_row; ?>][product_attribute_description][<?php echo $language['language_id']; ?>][text]" rows="5" placeholder="<?php echo $entry_text; ?>" class="form-control"><?php echo isset($product_attribute['product_attribute_description'][$language['language_id']]) ? $product_attribute['product_attribute_description'][$language['language_id']]['text'] : ''; ?></textarea>
                         </div>
                         <?php } ?></td>
-                      <td class="text-left" style="display: none"><button type="button" onclick="$('#attribute-row<?php echo $attribute_row; ?>').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+                      <td class="text-left"><button type="button" onclick="$('#attribute-row<?php echo $attribute_row; ?>').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
                     </tr>
                     <?php $attribute_row++; ?>
                     <?php } ?>
                   </tbody>
                   <tfoot>
-		      <tr style="display: none">
+                    <tr>
                       <td colspan="2"></td>
                       <td class="text-left"><button type="button" onclick="addAttribute();" data-toggle="tooltip" title="<?php echo $button_attribute_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
                     </tr>
@@ -468,7 +468,7 @@
               <div class="row">
                 <div class="col-sm-2">
                   <ul class="nav nav-pills nav-stacked" id="option">
-                    <?php $option_row = 0; ?>
+                    <?php $option_row = 0; print_r(product_options); ?>
                     <?php foreach ($product_options as $product_option) { ?>
                     <li><a href="#tab-option<?php echo $option_row; ?>" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-option<?php echo $option_row; ?>\']').parent().remove(); $('#tab-option<?php echo $option_row; ?>').remove(); $('#option a:first').tab('show');"></i> <?php echo $product_option['name']; ?></a></li>
                     <?php $option_row++; ?>
@@ -1076,7 +1076,7 @@ $('#product-related').delegate('.fa-minus-circle', 'click', function() {
   <script type="text/javascript"><!--
 var attribute_row = <?php echo $attribute_row; ?>;
 
-{*function addAttribute() {
+function addAttribute() {
     html  = '<tr id="attribute-row' + attribute_row + '">';
 	html += '  <td class="text-left" style="width: 20%;"><input type="text" name="product_attribute[' + attribute_row + '][name]" value="" placeholder="<?php echo $entry_attribute; ?>" class="form-control" /><input type="hidden" name="product_attribute[' + attribute_row + '][attribute_id]" value="" /></td>';
 	html += '  <td class="text-left">';
@@ -1089,12 +1089,12 @@ var attribute_row = <?php echo $attribute_row; ?>;
 
 	$('#attribute tbody').append(html);
 
-//	attributeautocomplete(attribute_row);
+	attributeautocomplete(attribute_row);
 
 	attribute_row++;
-}*}
+}
 
-{*function attributeautocomplete(attribute_row) {
+function attributeautocomplete(attribute_row) {
 	$('input[name=\'product_attribute[' + attribute_row + '][name]\']').autocomplete({
 		'source': function(request, response) {
 			$.ajax({
@@ -1120,7 +1120,7 @@ var attribute_row = <?php echo $attribute_row; ?>;
 
 $('#attribute tbody tr').each(function(index, element) {
 	attributeautocomplete(index);
-});*}
+});
 //--></script>
   <script type="text/javascript"><!--
 var option_row = <?php echo $option_row; ?>;

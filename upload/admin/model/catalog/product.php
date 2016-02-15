@@ -474,7 +474,7 @@ class ModelCatalogProduct extends Model {
 				'product_attribute_description' => $product_attribute_description_data
 			);
 		}
-		
+
 		return $product_attribute_data;
 	}
 

@@ -83,7 +83,7 @@ class Excel_XML
          */
         public function __construct($sEncoding = 'UTF-8', $bConvertTypes = false, $sWorksheetTitle = 'Table1')
         {
-            $this->bConvertTypes = $bConvertTypes;
+                $this->bConvertTypes = $bConvertTypes;
         	$this->setEncoding($sEncoding);
         	$this->setWorksheetTitle($sWorksheetTitle);
         }
@@ -125,12 +125,12 @@ class Excel_XML
         {
         	$cells = "";
                 foreach ($array as $k => $v):
-                    $type = 'String';
-                    if ($this->bConvertTypes === true && is_numeric($v)):
-                        $type = 'Number';
-                    endif;
-                    $v = htmlentities($v, ENT_COMPAT, $this->sEncoding);
-                    $cells .= "<Cell><Data ss:Type=\"$type\">" . $v . "</Data></Cell>\n"; 
+                        $type = 'String';
+                        if ($this->bConvertTypes === true && is_numeric($v)):
+                                $type = 'Number';
+                        endif;
+                        $v = htmlentities($v, ENT_COMPAT, $this->sEncoding);
+                        $cells .= "<Cell><Data ss:Type=\"$type\">" . $v . "</Data></Cell>\n"; 
                 endforeach;
                 $this->lines[] = "<Row>\n" . $cells . "</Row>\n";
         }
@@ -164,7 +164,7 @@ class Excel_XML
                 echo stripslashes (sprintf($this->header, $this->sEncoding));
                 echo "\n<Worksheet ss:Name=\"" . $this->sWorksheetTitle . "\">\n<Table>\n";
                 foreach ($this->lines as $line)
-                    echo $line;
+                        echo $line;
 
                 echo "</Table>\n</Worksheet>\n";
                 echo $this->footer;

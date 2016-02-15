@@ -21,40 +21,38 @@
 <?php } ?>
 <?php } ?>
 <div style="position: relative;">
-    <div style="float: left; width: 45%">
+    <div>
 	<h2>代金引換<span style="font-size: 14px;margin-left: 10px;">●一部商品利用不可</span></h2>
 	<p>配送時にドライバーが持参する品代金領収書に記載されている<br>
 	   お支払い総額を、現金でお支払いください。</p>
+
 	<p>※クレジットカード・デビットカードがぎ利用いただけません。<br>
 	   ※代引き手数料はお客様負担でお願いしております。<br>
 	   ※お荷物貼付の送り状の1枚が領収書となっております<br>
 	   &nbsp;&nbsp;&nbsp;お支払い後にドライバーがその場でお渡しします。<br>
-	   ※当店から領収書は発行いたしておりません。
-	</p>
+	   ※当店から領収書は発行いたしておりません。</p>
+
     </div>
-    <div style="float: left;width: 45%;margin-left: 5%">
-	<table border='1'>
-	    <tr style='background: #727171; color:white'>
-		<td style="width:200px">銀行振込</td>
-		<td style="width:200px">代金引換</td>
-	    </tr>
-	    <tr>
-		<td>1万円まで</td>
-		<td>315円</td>
-	    </tr><tr>
-		<td>3万円まで</td>
-		<td>420円</td>
-	    </tr><tr>
-		<td>10万円まで</td>
-		<td>630円</td>
-	    </tr><tr>
-		<td>30万円まで</td>
-		<td>1,050円</td>
-	    </tr>
-	</table>
-    </div>
+    <table border='1' style='text-align: center; position: absolute; top: 0px; right : 250px;'>
+	<tr style='background: #727171; color:white'>
+	    <td style="width:200px">銀行振込</td>
+	    <td style="width:200px">代金引換</td>
+	</tr>
+	<tr>
+	    <td>1万円まで</td>
+	    <td>315円</td>
+	</tr><tr>
+	    <td>3万円まで</td>
+	    <td>420円</td>
+	</tr><tr>
+	    <td>10万円まで</td>
+	    <td>630円</td>
+	</tr><tr>
+	    <td>30万円まで</td>
+	    <td>1,050円</td>
+	</tr>
+    </table>
 </div>
-<div style="clear: both;"></div>
 <p><strong><?php echo $text_comments; ?></strong></p>
 <p>
   <textarea name="comment" rows="8" class="form-control"><?php echo $comment; ?></textarea>

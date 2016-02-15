@@ -77,17 +77,17 @@ class ControllerAccountEdit extends Controller {
 			$data['error_warning'] = '';
 		}
 
-		if (isset($this->error['firstname'])) {
-			$data['error_firstname'] = $this->error['firstname'];
-		} else {
-			$data['error_firstname'] = '';
-		}
-
-		if (isset($this->error['lastname'])) {
-			$data['error_lastname'] = $this->error['lastname'];
-		} else {
-			$data['error_lastname'] = '';
-		}
+//		if (isset($this->error['firstname'])) {
+//			$data['error_firstname'] = $this->error['firstname'];
+//		} else {
+//			$data['error_firstname'] = '';
+//		}
+//
+//		if (isset($this->error['lastname'])) {
+//			$data['error_lastname'] = $this->error['lastname'];
+//		} else {
+//			$data['error_lastname'] = '';
+//		}
 
 		if (isset($this->error['email'])) {
 			$data['error_email'] = $this->error['email'];
@@ -95,11 +95,11 @@ class ControllerAccountEdit extends Controller {
 			$data['error_email'] = '';
 		}
 
-		if (isset($this->error['telephone'])) {
-			$data['error_telephone'] = $this->error['telephone'];
-		} else {
-			$data['error_telephone'] = '';
-		}
+//		if (isset($this->error['telephone'])) {
+//			$data['error_telephone'] = $this->error['telephone'];
+//		} else {
+//			$data['error_telephone'] = '';
+//		}
 
 		if (isset($this->error['custom_field'])) {
 			$data['error_custom_field'] = $this->error['custom_field'];
@@ -113,21 +113,21 @@ class ControllerAccountEdit extends Controller {
 			$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		}
 
-		if (isset($this->request->post['firstname'])) {
-			$data['firstname'] = $this->request->post['firstname'];
-		} elseif (!empty($customer_info)) {
-			$data['firstname'] = $customer_info['firstname'];
-		} else {
-			$data['firstname'] = '';
-		}
+//		if (isset($this->request->post['firstname'])) {
+//			$data['firstname'] = $this->request->post['firstname'];
+//		} elseif (!empty($customer_info)) {
+//			$data['firstname'] = $customer_info['firstname'];
+//		} else {
+//			$data['firstname'] = '';
+//		}
 
-		if (isset($this->request->post['lastname'])) {
-			$data['lastname'] = $this->request->post['lastname'];
-		} elseif (!empty($customer_info)) {
-			$data['lastname'] = $customer_info['lastname'];
-		} else {
-			$data['lastname'] = '';
-		}
+//		if (isset($this->request->post['lastname'])) {
+//			$data['lastname'] = $this->request->post['lastname'];
+//		} elseif (!empty($customer_info)) {
+//			$data['lastname'] = $customer_info['lastname'];
+//		} else {
+//			$data['lastname'] = '';
+//		}
 
 		if (isset($this->request->post['email'])) {
 			$data['email'] = $this->request->post['email'];
@@ -137,13 +137,13 @@ class ControllerAccountEdit extends Controller {
 			$data['email'] = '';
 		}
 
-		if (isset($this->request->post['telephone'])) {
-			$data['telephone'] = $this->request->post['telephone'];
-		} elseif (!empty($customer_info)) {
-			$data['telephone'] = $customer_info['telephone'];
-		} else {
-			$data['telephone'] = '';
-		}
+//		if (isset($this->request->post['telephone'])) {
+//			$data['telephone'] = $this->request->post['telephone'];
+//		} elseif (!empty($customer_info)) {
+//			$data['telephone'] = $customer_info['telephone'];
+//		} else {
+//			$data['telephone'] = '';
+//		}
 
 		if (isset($this->request->post['fax'])) {
 			$data['fax'] = $this->request->post['fax'];
@@ -183,13 +183,13 @@ class ControllerAccountEdit extends Controller {
 	}
 
 	protected function validate() {
-		if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-			$this->error['firstname'] = $this->language->get('error_firstname');
-		}
-
-		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-			$this->error['lastname'] = $this->language->get('error_lastname');
-		}
+//		if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
+//			$this->error['firstname'] = $this->language->get('error_firstname');
+//		}
+//
+//		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
+//			$this->error['lastname'] = $this->language->get('error_lastname');
+//		}
 
 		if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $this->request->post['email'])) {
 			$this->error['email'] = $this->language->get('error_email');
@@ -199,9 +199,9 @@ class ControllerAccountEdit extends Controller {
 			$this->error['warning'] = $this->language->get('error_exists');
 		}
 
-		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
-			$this->error['telephone'] = $this->language->get('error_telephone');
-		}
+//		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
+//			$this->error['telephone'] = $this->language->get('error_telephone');
+//		}
 
 		// Custom field validation
 		$this->load->model('account/custom_field');

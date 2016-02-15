@@ -25,7 +25,7 @@
 		</div>
 		<?php } ?>
 		<?php if ((!$error_warning) && (!$success)) { ?>
-		<div style="display: none" id="export_import_notification" class="alert alert-info"><i class="fa fa-info-circle"></i>
+		<div id="export_import_notification" class="alert alert-info"><i class="fa fa-info-circle"></i>
 			<div id="export_import_loading"><img src="<?php echo HTTP_SERVER; ?>/view/image/export-import/loading.gif" /><?php echo $text_loading_notifications; ?></div>
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 		</div>
