@@ -129,10 +129,8 @@
            if ($attribute['name'] == '詳細①' || $attribute['name'] == '詳細②' || $attribute['name'] == 'カタログ掲載ページ番号'){ 
            if($attribute['name'] == 'カタログ掲載ページ番号') 
             $text_cata = '<li>カタログ掲載ページ番号: '.$attribute['text'].'</li>';
-            else {
-           ?>
-                
-                <li><?php echo $attribute['name'].': '; ?> <?php echo $attribute['text']; ?></li>
+            else { ?>
+                <h1><?php echo $attribute['text'];?></h1>
              <?php }}} ?>
              
             <?php if ($manufacturer) { ?>

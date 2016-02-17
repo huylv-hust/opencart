@@ -172,7 +172,7 @@ class Import
 
 			self::$db->insert('oc_product_to_layout',$arr_product_to_layout);
 
-			$description = '以下の例のようにこれらのカラムを取りまとめて「商品説明」に保存。ただし空欄の場合は見出しごとカット。&lt;br&gt;&lt;br&gt;';
+			$description = '';
 			if($row['19'])
 				$description .= '●用途&lt;br&gt;'.$row['19'];
 			if($row['20'])

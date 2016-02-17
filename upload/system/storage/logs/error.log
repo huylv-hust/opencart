@@ -6903,3 +6903,4 @@
 2016-02-15 11:30:03 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
 2016-02-15 11:32:14 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
 2016-02-15 11:32:17 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
+2016-02-17 8:54:25 - PHP Notice:  Use of undefined constant product_options - assumed 'product_options' in E:\Xampp\htdocs\opencart\upload\admin\view\template\catalog\product_form.tpl on line 471
