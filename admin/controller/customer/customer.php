@@ -54,6 +54,10 @@ class ControllerCustomerCustomer extends Controller {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 			}
 
+			if (isset($this->request->get['filter_usami'])) {
+				$url .= '&filter_usami=' . $this->request->get['filter_usami'];
+			}
+
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
@@ -112,6 +116,10 @@ class ControllerCustomerCustomer extends Controller {
 
 			if (isset($this->request->get['filter_date_added'])) {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+			}
+
+			if (isset($this->request->get['filter_usami'])) {
+				$url .= '&filter_usami=' . $this->request->get['filter_usami'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -174,6 +182,10 @@ class ControllerCustomerCustomer extends Controller {
 
 			if (isset($this->request->get['filter_date_added'])) {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+			}
+
+			if (isset($this->request->get['filter_usami'])) {
+				$url .= '&filter_usami=' . $this->request->get['filter_usami'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -241,8 +253,12 @@ class ControllerCustomerCustomer extends Controller {
 			}
 
 			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-			}
+					$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+				}
+
+			if (isset($this->request->get['filter_usami'])) {
+				$url .= '&filter_usami=' . $this->request->get['filter_usami'];
+				}
 
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
@@ -302,6 +318,10 @@ class ControllerCustomerCustomer extends Controller {
 
 			if (isset($this->request->get['filter_date_added'])) {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+			}
+
+			if (isset($this->request->get['filter_usami'])) {
+				$url .= '&filter_usami=' . $this->request->get['filter_usami'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -365,6 +385,12 @@ class ControllerCustomerCustomer extends Controller {
 			$filter_date_added = null;
 		}
 
+		if (isset($this->request->get['filter_usami'])) {
+			$filter_usami = $this->request->get['filter_usami'];
+		} else {
+			$filter_usami = null;
+		}
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -413,6 +439,10 @@ class ControllerCustomerCustomer extends Controller {
 			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 		}
 
+		if (isset($this->request->get['filter_usami'])) {
+			$url .= '&filter_usami=' . $this->request->get['filter_usami'];
+		}
+
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
 		}
@@ -424,6 +454,36 @@ class ControllerCustomerCustomer extends Controller {
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
+// Custom Fields
+		$this->load->model('customer/custom_field');
+
+		$data['custom_fields'] = array();
+		$data['usami'] = array();
+
+		$filter_data = array(
+			'sort'  => 'cf.sort_order',
+			'order' => 'ASC'
+		);
+
+		$custom_fields = $this->model_customer_custom_field->getCustomFields($filter_data);
+
+		foreach ($custom_fields as $custom_field) {
+			$data['custom_fields'][] = array(
+				'custom_field_id'    => $custom_field['custom_field_id'],
+				'custom_field_value' => $this->model_customer_custom_field->getCustomFieldValues($custom_field['custom_field_id']),
+				'name'               => $custom_field['name'],
+				'value'              => $custom_field['value'],
+				'type'               => $custom_field['type'],
+				'location'           => $custom_field['location'],
+				'sort_order'         => $custom_field['sort_order']
+			);
+		}
+		foreach ($data['custom_fields'] as $custom_fields) {
+			if ($custom_fields['type'] == 'select' && $custom_fields['name'] == '宇佐美支店コード') {
+				$data['usami'] = $custom_fields['custom_field_value'];
+				$data['usami_id'] = $custom_fields['custom_field_id'];
+				}
+			}
 
 		$data['breadcrumbs'] = array();
 
@@ -450,6 +510,8 @@ class ControllerCustomerCustomer extends Controller {
 			'filter_approved'          => $filter_approved,
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
+			'filter_usami'             => $filter_usami,
+			'filter_usami_id'          => $data['usami_id'],
 			'sort'                     => $sort,
 			'order'                    => $order,
 			'start'                    => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -577,6 +639,10 @@ class ControllerCustomerCustomer extends Controller {
 			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 		}
 
+		if (isset($this->request->get['filter_usami'])) {
+			$url .= '&filter_usami=' . $this->request->get['filter_usami'];
+		}
+
 		if ($order == 'ASC') {
 			$url .= '&order=DESC';
 		} else {
@@ -624,6 +690,10 @@ class ControllerCustomerCustomer extends Controller {
 			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 		}
 
+		if (isset($this->request->get['filter_usami'])) {
+			$url .= '&filter_usami=' . $this->request->get['filter_usami'];
+		}
+
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
 		}
@@ -649,6 +719,7 @@ class ControllerCustomerCustomer extends Controller {
 		$data['filter_approved'] = $filter_approved;
 		$data['filter_ip'] = $filter_ip;
 		$data['filter_date_added'] = $filter_date_added;
+		$data['filter_usami'] = $filter_usami;
 
 		$this->load->model('customer/customer_group');
 
@@ -812,6 +883,10 @@ class ControllerCustomerCustomer extends Controller {
 
 		if (isset($this->request->get['filter_date_added'])) {
 			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+		}
+
+		if (isset($this->request->get['filter_usami'])) {
+			$url .= '&filter_usami=' . $this->request->get['filter_usami'];
 		}
 
 		if (isset($this->request->get['sort'])) {

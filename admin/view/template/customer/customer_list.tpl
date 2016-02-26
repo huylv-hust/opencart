@@ -103,10 +103,26 @@
                   <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                   </span></div>
               </div>
+
+              <div class="form-group">
+                <label class="control-label" for="input-usami"><?php echo '宇佐美支店コード'; ?></label>
+                <select name="filter_usami" id="input-filter_usami" class="form-control">
+                    <option value="*"></option>
+                    <?php foreach ($usami as $k => $v) { ?>
+                    <?php if ($k == $filter_usami) { ?>
+                    <option value="<?php echo $k; ?>" selected="selected"><?php echo $v['name']; ?></option>
+                    <?php } else { ?>
+                    <option value="<?php echo $k; ?>"><?php echo $v['name']; ?></option>
+                    <?php } ?>
+                    <?php } ?>
+                </select>
+              </div>
+
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
             </div>
           </div>
         </div>
+
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-customer">
           <div class="table-responsive">
             <table class="table table-bordered table-hover">
@@ -244,8 +260,14 @@ $('#button-filter').on('click', function() {
 	if (filter_date_added) {
 		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
 	}
-	
-	location = url;
+
+    var filter_usami = $('select[name=\'filter_usami\']').val();
+
+    if (filter_usami != '*') {
+        url += '&filter_usami=' + encodeURIComponent(filter_usami);
+    }
+
+    location = url;
 });
 //--></script> 
   <script type="text/javascript"><!--

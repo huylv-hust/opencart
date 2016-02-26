@@ -109,6 +109,10 @@ class ModelCustomerCustomer extends Model {
 			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
 		}
 
+		if (!empty($data['filter_usami'])) {
+			$implode[] = "custom_field LIKE '%" . "\"" .$data['filter_usami_id']. "\"" . ":" . "\"" . $data['filter_usami'] . "\"" . "%'";
+		}
+
 		if ($implode) {
 			$sql .= " AND " . implode(" AND ", $implode);
 		}
@@ -299,6 +303,10 @@ class ModelCustomerCustomer extends Model {
 
 		if (!empty($data['filter_date_added'])) {
 			$implode[] = "DATE(date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
+		}
+
+		if (!empty($data['filter_usami'])) {
+			$implode[] = "custom_field LIKE '%" . "\"" .$data['filter_usami_id']. "\"" . ":" . "\"" . $data['filter_usami'] . "\"" . "%'";
 		}
 
 		if ($implode) {
