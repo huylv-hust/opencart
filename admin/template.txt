@@ -1,0 +1,5 @@
+$lastname $firstname 様
+
+宇佐美トラックサポートサイトに登録いたしました。
+
+$site

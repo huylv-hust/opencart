@@ -1,0 +1,137 @@
+<modification>
+
+    <id>Export customer list</id>
+    <version>2.0</version>
+    <vqmver>2.4.1</vqmver>
+
+    <!-- Language -->
+
+    <file path="admin/language/english/default.php">
+        <operation>
+            <search position="after"><![CDATA[$_['button_approve'] = 'Approve';]]></search>
+            <add><![CDATA[$_['button_export'] = 'Export';]]></add>
+        </operation>
+    </file>
+
+    <!-- Customer list -->
+
+    <!-- Controller -->
+
+    <file path="admin/controller/customer/customer.php">
+        <operation>
+            <search position="before"><![CDATA[$data['breadcrumbs'] = array();]]></search>
+            <add><![CDATA[$data['export'] = $this->url->link('customer/customer/export', 'token=' . $this->session->data['token'] . $url, 'SSL');]]></add>
+        </operation>
+
+        <operation>
+            <search position="before">
+                <![CDATA[$data['button_approve'] = $this->language->get('button_approve');]]></search>
+            <add><![CDATA[$data['button_export'] = $this->language->get('button_export');]]></add>
+        </operation>
+
+        <operation>
+            <search position="before"><![CDATA[protected function getList() {]]></search>
+            <add><![CDATA[
+        public function export() {
+
+            $data = array();
+
+            $orders = array();
+
+            $orders_column=array();
+
+            $this->load->model('customer/customer');
+
+            $results = $this->model_customer_customer->getCustomerExport($data);
+
+            $customer_list = array();
+            $customer_list_temp = array();
+            foreach ($results as $result)
+            {
+                $customer_list_temp[$result['customer_id']][] = array(
+                    'customer_id' => $result['customer_id'],
+                    'customer_group_id' => $result['customer_group_id'],
+                    'store_id' => $result['store_id'],
+                    'firstname' => $result['firstname'],
+                    'lastname' => $result['lastname'],
+                    'email' => $result['email'],
+                    'telephone' => $result['telephone'],
+                    'fax' => $result['fax'],
+                    'password' => $result['password'],
+                    'salt' => $result['salt'],
+                    'cart' => $result['cart'],
+                    'wishlist' => $result['wishlist'],
+                    'newsletter' => $result['newsletter'],
+                    'address_id' => $result['address_id'],
+                    'custom_field' => $result['custom_field'],
+                    'ip' => $result['ip'],
+                    'status' => $result['status'],
+                    'approved' => $result['approved'],
+                    'safe' => $result['safe'],
+                    'token' => $result['token'],
+                    'date_added' => $result['date_added']
+                );
+            }
+
+            foreach($customer_list_temp as $customer_id => $rows)
+            {
+                foreach($rows as $k => $row)
+                {
+                    $customer_list[] = $row;
+                }
+            }
+
+            $customer_column = array('customer_id','customer_group_id','store_id','firstname','lastname','email','telephone','fax','password','salt','cart','wishlist','newsletter','address_id','custom_field','ip','status','approved','safe','token','date_added');
+
+            $customer[0] = $customer_column;
+
+            foreach($customer_list as $customer_row)
+            {
+                $customer[] = $customer_row;
+            }
+
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename=customer_'.date('Ymd').'.csv');
+            $fp = fopen('php://output', 'w');
+            fputs($fp, $bom = (chr(0xEF).chr(0xBB).chr(0xBF)));
+            foreach($customer as $k => $v)
+            {
+            fputcsv($fp, $v);
+            }
+
+            fclose($fp);
+            exit();
+
+            }]]></add>
+        </operation>
+
+    </file>
+
+    <!-- Model -->
+
+    <file path="admin/model/customer/customer.php">
+        <operation>
+            <search position="before"><![CDATA[public function getCustomers($data = array()) {]]></search>
+            <add><![CDATA[public function getCustomerExport($data = array()) {
+                $wh = 'WHERE 1 = 1';
+                $sql = "SELECT oc_customer.* FROM oc_customer {$wh} ORDER BY oc_customer.date_added DESC ";
+                $query = $this->db->query($sql)->rows;
+
+		return $query;
+
+			}]]></add>
+        </operation>
+    </file>
+
+    <!-- View -->
+
+    <file path="admin/view/template/customer/customer_list.tpl">
+        <operation>
+            <search position="after">
+                <![CDATA[<a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>]]></search>
+            <add>
+                <![CDATA[<a href="<?php echo $export; ?>" data-toggle="tooltip" title="<?php echo 'Export'; ?>" class="btn btn-success"><i class="glyphicon glyphicon-export"></i></a>]]></add>
+        </operation>
+    </file>
+
+</modification>

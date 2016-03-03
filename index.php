@@ -258,6 +258,9 @@ foreach ($query->rows as $result) {
 // Front Controller
 $controller = new Front($registry);
 
+// Check Login
+$controller->addPreAction(new Action('account/login/check'));
+
 // Maintenance Mode
 $controller->addPreAction(new Action('common/maintenance'));
 

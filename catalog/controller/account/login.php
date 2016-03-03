@@ -187,6 +187,23 @@ class ControllerAccountLogin extends Controller {
 		}
 	}
 
+	public function check() {
+		$route = isset($this->request->get['route']) ? $this->request->get['route'] : '';
+
+		$ignore = array(
+			'account/login',
+			'account/logout',
+			'account/forgotten',
+			'account/register',
+			'api/login'
+		);
+
+		if (!$this->customer->isLogged() && !in_array($route, $ignore)) {
+			return $this->response->redirect($this->url->link('account/login'));
+		}
+	}
+
+
 	protected function validate() {
 		$this->event->trigger('pre.customer.login');
 
