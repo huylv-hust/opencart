@@ -34,7 +34,7 @@
             <li><a href="#tab-ip" data-toggle="tab"><?php echo $tab_ip; ?></a></li>
             <?php } ?>
           </ul>
-	  
+
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
               <div class="row">
@@ -66,7 +66,7 @@
                           </select>
                         </div>
                       </div>
-			  
+
                       <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?></label>
                         <div class="col-sm-10">
@@ -374,13 +374,13 @@
                           <?php } ?>
                         </div>
                       </div>
-                      <div class="form-group" style="display: none">
+                      <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-address-2<?php echo $address_row; ?>"><?php echo $entry_address_2; ?></label>
                         <div class="col-sm-10">
                           <input type="text" name="address[<?php echo $address_row; ?>][address_2]" value="<?php echo $address['address_2']; ?>" placeholder="<?php echo $entry_address_2; ?>" id="input-address-2<?php echo $address_row; ?>" class="form-control" />
                         </div>
                       </div>
-		      
+
                       <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-city<?php echo $address_row; ?>"><?php echo $entry_city; ?></label>
                         <div class="col-sm-10">
@@ -599,7 +599,7 @@
                 </div>
               </div>
             </div>
-	 
+
             <?php if ($customer_id) { ?>
             <div class="tab-pane" id="tab-history">
               <div id="history"></div>
@@ -716,7 +716,7 @@ function addAddress() {
 	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][address_1]" value="" placeholder="<?php echo $entry_address_1; ?>" id="input-address-1' + address_row + '" class="form-control" /></div>';
 	html += '  </div>';
 
-	html += '  <div class="form-group" style="display: none">';
+	html += '  <div class="form-group">';
 	html += '    <label class="col-sm-2 control-label" for="input-address-2' + address_row + '"><?php echo $entry_address_2; ?></label>';
 	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][address_2]" value="" placeholder="<?php echo $entry_address_2; ?>" id="input-address-2' + address_row + '" class="form-control" /></div>';
 	html += '  </div>';
@@ -854,10 +854,10 @@ function addAddress() {
 	<?php } ?>
 	<?php } ?>
 
-	//html += '  <div class="form-group">';
-	//html += '    <label class="col-sm-2 control-label"><?php echo $entry_default; ?></label>';
-	//html += '    <div class="col-sm-10"><label class="radio"><input type="radio" name="address[' + address_row + '][default]" value="1" /></label></div>';
-	//html += '  </div>';
+	html += '  <div class="form-group">';
+	html += '    <label class="col-sm-2 control-label"><?php echo $entry_default; ?></label>';
+	html += '    <div class="col-sm-10"><label class="radio"><input type="radio" name="address[' + address_row + '][default]" value="1" /></label></div>';
+	html += '  </div>';
 
     html += '</div>';
 

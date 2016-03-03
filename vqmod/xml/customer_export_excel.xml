@@ -48,28 +48,22 @@
             $customer_list_temp = array();
             foreach ($results as $result)
             {
-                $customer_list_temp[$result['customer_id']][] = array(
-                    'customer_id' => $result['customer_id'],
-                    'customer_group_id' => $result['customer_group_id'],
-                    'store_id' => $result['store_id'],
-                    'firstname' => $result['firstname'],
-                    'lastname' => $result['lastname'],
-                    'email' => $result['email'],
-                    'telephone' => $result['telephone'],
-                    'fax' => $result['fax'],
-                    'password' => $result['password'],
-                    'salt' => $result['salt'],
-                    'cart' => $result['cart'],
-                    'wishlist' => $result['wishlist'],
-                    'newsletter' => $result['newsletter'],
-                    'address_id' => $result['address_id'],
-                    'custom_field' => $result['custom_field'],
-                    'ip' => $result['ip'],
-                    'status' => $result['status'],
-                    'approved' => $result['approved'],
-                    'safe' => $result['safe'],
-                    'token' => $result['token'],
-                    'date_added' => $result['date_added']
+                $customer_list_temp[$result['id']][] = array(
+                    '1' => $result['id'],
+                    '2' => $result['branch_code'],
+                    '3' => $result['card_6'],
+                    '4' => $result['card_5'],
+                    '5' => $result['lastname'],
+                    '6' => $result['firstname'],
+                    '7' => $result['email'],
+                    '8' => $result['telephone'],
+                    '9' => $result['company'],
+                    '10' => $result['department'],
+                    '11' => $result['postcode'],
+                    '12' => $result['zone'],
+                    '13' => $result['city'],
+                    '14' => $result['address_1'],
+                    '15' => $result['address_2'],
                 );
             }
 
@@ -81,7 +75,7 @@
                 }
             }
 
-            $customer_column = array('customer_id','customer_group_id','store_id','firstname','lastname','email','telephone','fax','password','salt','cart','wishlist','newsletter','address_id','custom_field','ip','status','approved','safe','token','date_added');
+            $customer_column = array('ID','宇佐美販売店コード','宇佐美支店コード','宇佐美顧客コード','氏名(姓)','氏名(名)','メールアドレス','電話番号','会社名','部署','郵便番号','都道府県','市区町村','丁目番地','建物名・部屋番号');
 
             $customer[0] = $customer_column;
 
@@ -113,9 +107,98 @@
         <operation>
             <search position="before"><![CDATA[public function getCustomers($data = array()) {]]></search>
             <add><![CDATA[public function getCustomerExport($data = array()) {
-                $wh = 'WHERE 1 = 1';
-                $sql = "SELECT oc_customer.* FROM oc_customer {$wh} ORDER BY oc_customer.date_added DESC ";
+                $wh = "WHERE 1 = 1";
+                if (isset($_GET['filter_order_id'])) {
+                    $wh .= " AND CONCAT(oc_customer.firstname, ' ', oc_customer.lastname) LIKE '%".$_GET['filter_order_id']."%'";
+                }
+                if (isset($_GET['filter_order_id'])) {
+                    $wh .= " AND oc_customer.customer_group_id = ".$_GET['filter_customer_group_id'];
+                }
+                if (isset($_GET['filter_approved'])) {
+                    $wh .= " AND oc_customer.approved = ".$_GET['filter_approved'];
+                }
+                if (isset($_GET['filter_date_added'])) {
+                    $wh .= " AND oc_customer.date_added = ".$_GET['filter_date_added'];
+                }
+                if (isset($_GET['filter_email'])) {
+                    $wh .= " AND oc_customer.email LIKE '%".$_GET['filter_email']."%'";
+                }
+                if (isset($_GET['filter_ip'])) {
+                    $wh .= " AND oc_customer.ip LIKE '%".$_GET['filter_ip']."%'";
+                }
+                if (isset($_GET['filter_status'])) {
+                    $wh .= " AND oc_customer.status = ".$_GET['filter_status'];
+                }
+                if (isset($_GET['filter_usami'])) {
+                    $sql4 = "SELECT * FROM oc_custom_field_description WHERE name = '宇佐美支店コード'";
+                    $query4 = $this->db->query($sql4)->rows;
+
+                    $filter = '\"'.$query4[0]['custom_field_id'].'\"' . ':' . '\"'.$_GET['filter_usami'].'\"';
+
+                    $wh .= " AND oc_customer.custom_field LIKE '%".$filter."%'";
+                }
+
+                $sql = "SELECT *, oc_customer.customer_id as id, oc_customer.custom_field as field_1, oc_address.custom_field as field_2, CONCAT(oc_customer.firstname, ' ', oc_customer.lastname) FROM oc_customer LEFT JOIN oc_address ON oc_customer.customer_id = oc_address.customer_id AND oc_customer.address_id = oc_address.address_id {$wh} ORDER BY oc_customer.date_added DESC ";
+
                 $query = $this->db->query($sql)->rows;
+
+// get custom_field
+                foreach ($query as $k => $v) {
+                    $field_1 = !json_decode($v['field_1'], true) ? array() : json_decode($v['field_1'], true);
+                    $field_2 = !json_decode($v['field_2'], true) ? array() : json_decode($v['field_2'], true);
+
+                    $custom_field = $field_1 + $field_2;
+
+                    foreach ($custom_field as $k1 => $v1) {
+                        $sql1 = "SELECT * FROM oc_custom_field_description WHERE 1";
+                        $query1 = $this->db->query($sql1)->rows;
+
+                        foreach ($query1 as $k2 => $v2) {
+
+                             if ($v2['name'] == '宇佐美支店コード') {
+                                if ($k1 == $v2['custom_field_id']) {
+                                    $sql2 = "SELECT * FROM oc_custom_field_value_description WHERE custom_field_value_id = $v1 AND custom_field_id = $k1";
+                                    $query2 = $this->db->query($sql2)->rows;
+                                    $branch_code = substr($query2[0]['name'], 0, 6);
+                                }
+                             }
+                             if ($v2['name'] == '宇佐美カード上6桁') {
+                                if ($k1 == $v2['custom_field_id']) {
+                                    $card_6 = $v1;
+                                }
+                             }
+                             if ($v2['name'] == '宇佐美カード下5桁') {
+                                if ($k1 == $v2['custom_field_id']) {
+                                    $card_5 = $v1;
+                                }
+                             }
+                             if ($v2['name'] == '宇佐美カード下5桁') {
+                                if ($k1 == $v2['custom_field_id']) {
+                                    $card_5 = $v1;
+                                }
+                             }
+                             if ($v2['name'] == '部署') {
+                                if ($k1 == $v2['custom_field_id']) {
+                                    $department = $v1;
+                                }
+                             }
+                        }
+                    }
+// get zone name
+                $zone_id = $v['zone_id'];
+                $country_id = $v['country_id'];
+                if ($zone_id && $country_id) {
+                    $sql3 = "SELECT * FROM oc_zone WHERE zone_id = $zone_id AND country_id = $country_id";
+                    $query3 = $this->db->query($sql3)->rows;
+                    $zone = $query2[0]['name'];
+                }
+
+                    $query[$k]['branch_code'] = $branch_code;
+                    $query[$k]['card_6'] = $card_6;
+                    $query[$k]['card_5'] = $card_5;
+                    $query[$k]['department'] = $department;
+                    $query[$k]['zone'] = $zone;
+                }
 
 		return $query;
 
