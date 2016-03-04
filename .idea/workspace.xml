@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="525f575e-d770-4d7d-9538-01cd2025c5f4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin/controller/customer/customer.php" afterPath="$PROJECT_DIR$/admin/controller/customer/customer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vqmod/xml/customer_export_excel.xml" afterPath="$PROJECT_DIR$/vqmod/xml/customer_export_excel.xml" />
     </list>
     <ignored path="ec.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,27 +24,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="customer_export_excel.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="customer_export_excel.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vqmod/xml/customer_export_excel.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.880618">
+            <state vertical-scroll-proportion="-24.115385">
               <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="customer.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="vq2-admin_controller_customer_customer.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vqmod/vqcache/vq2-admin_controller_customer_customer.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.4339623">
+              <caret line="1266" column="43" selection-start-line="1266" selection-start-column="43" selection-end-line="1266" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customer.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/admin/controller/customer/customer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.226415">
-              <caret line="1228" column="0" selection-start-line="1228" selection-start-column="0" selection-end-line="1228" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.2467153">
+              <caret line="1211" column="17" selection-start-line="1209" selection-start-column="16" selection-end-line="1211" selection-end-column="17" />
               <folding>
                 <element signature="n#add#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
                 <element signature="n#delete#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
                 <element signature="n#approve#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
                 <element signature="n#unlock#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
                 <element signature="n#getList#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
+                <marker date="1457065581010" expanded="true" signature="42934:43318" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -87,7 +96,6 @@
         <option value="$PROJECT_DIR$/admin/controller/sale/order.php" />
         <option value="$PROJECT_DIR$/vqmod/xml/order_export_excel.xml" />
         <option value="$PROJECT_DIR$/vqmod/vqmod.php" />
-        <option value="$PROJECT_DIR$/vqmod/vqcache/vq2-admin_controller_customer_customer.php" />
         <option value="$PROJECT_DIR$/system/library/mail.php" />
         <option value="$PROJECT_DIR$/admin/template.txt" />
         <option value="$PROJECT_DIR$/.htaccess" />
@@ -103,6 +111,7 @@
         <option value="$PROJECT_DIR$/admin/model/customer/customer.php" />
         <option value="$PROJECT_DIR$/vqmod/vqcache/vq2-admin_model_customer_customer.php" />
         <option value="$PROJECT_DIR$/vqmod/xml/customer_export_excel.xml" />
+        <option value="$PROJECT_DIR$/vqmod/vqcache/vq2-admin_controller_customer_customer.php" />
         <option value="$PROJECT_DIR$/admin/controller/customer/customer.php" />
       </list>
     </option>
@@ -196,6 +205,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="xml" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ec" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opencart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vqmod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vqcache" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -316,7 +343,7 @@
     <frame x="-8" y="-8" width="1604" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28652394" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28652394" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32898173" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -509,14 +536,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vqmod/vqcache/vq2-admin_controller_customer_customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.0188675">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.04775281">
@@ -656,6 +675,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.95036495">
           <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -788,20 +808,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/admin/controller/customer/customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.226415">
-          <caret line="1228" column="0" selection-start-line="1228" selection-start-column="0" selection-end-line="1228" selection-end-column="0" />
-          <folding>
-            <element signature="n#add#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
-            <element signature="n#delete#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
-            <element signature="n#approve#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
-            <element signature="n#unlock#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
-            <element signature="n#getList#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/admin/view/template/customer/customer_form.tpl">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.033674963">
@@ -815,9 +821,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vqmod/xml/customer_export_excel.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.880618">
+        <state vertical-scroll-proportion="-24.115385">
           <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vqmod/vqcache/vq2-admin_controller_customer_customer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.4339623">
+          <caret line="1266" column="43" selection-start-line="1266" selection-start-column="43" selection-end-line="1266" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/controller/customer/customer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2467153">
+          <caret line="1211" column="17" selection-start-line="1209" selection-start-column="16" selection-end-line="1211" selection-end-column="17" />
+          <folding>
+            <element signature="n#add#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
+            <element signature="n#delete#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
+            <element signature="n#approve#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
+            <element signature="n#unlock#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
+            <element signature="n#getList#0;n#ControllerCustomerCustomer#0;n#!!top" expanded="false" />
+            <marker date="1457065581010" expanded="true" signature="42934:43318" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1187,13 +1187,13 @@ class ControllerCustomerCustomer extends Controller {
 
 		if (isset($this->request->post['address'])) {
 			foreach ($this->request->post['address'] as $key => $value) {
-				if ((utf8_strlen($value['firstname']) < 1) || (utf8_strlen($value['firstname']) > 32)) {
-					$this->error['address'][$key]['firstname'] = $this->language->get('error_firstname');
-				}
-
-				if ((utf8_strlen($value['lastname']) < 1) || (utf8_strlen($value['lastname']) > 32)) {
-					$this->error['address'][$key]['lastname'] = $this->language->get('error_lastname');
-				}
+//				if ((utf8_strlen($value['firstname']) < 1) || (utf8_strlen($value['firstname']) > 32)) {
+//					$this->error['address'][$key]['firstname'] = $this->language->get('error_firstname');
+//				}
+//
+//				if ((utf8_strlen($value['lastname']) < 1) || (utf8_strlen($value['lastname']) > 32)) {
+//					$this->error['address'][$key]['lastname'] = $this->language->get('error_lastname');
+//				}
 
 				if ((utf8_strlen($value['address_1']) < 3) || (utf8_strlen($value['address_1']) > 128)) {
 					$this->error['address'][$key]['address_1'] = $this->language->get('error_address_1');
@@ -1207,9 +1207,9 @@ class ControllerCustomerCustomer extends Controller {
 
 				$country_info = $this->model_localisation_country->getCountry($value['country_id']);
 
-				if ($country_info && $country_info['postcode_required'] && (utf8_strlen($value['postcode']) < 2 || utf8_strlen($value['postcode']) > 15)) {
-					$this->error['address'][$key]['postcode'] = $this->language->get('error_postcode');
-				}
+//				if ($country_info && $country_info['postcode_required'] && (utf8_strlen($value['postcode']) < 2 || utf8_strlen($value['postcode']) > 15)) {
+//					$this->error['address'][$key]['postcode'] = $this->language->get('error_postcode');
+//				}
 
 				if ($value['country_id'] == '') {
 					$this->error['address'][$key]['country'] = $this->language->get('error_country');
