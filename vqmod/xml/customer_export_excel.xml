@@ -53,8 +53,8 @@
                     '2' => $result['branch_code'],
                     '3' => $result['card_6'],
                     '4' => $result['card_5'],
-                    '5' => $result['lastname'],
-                    '6' => $result['firstname'],
+                    '5' => $result['last'],
+                    '6' => $result['first'],
                     '7' => $result['email'],
                     '8' => $result['telephone'],
                     '9' => $result['company'],
@@ -138,7 +138,7 @@
                     $wh .= " AND oc_customer.custom_field LIKE '%".$filter."%'";
                 }
 
-                $sql = "SELECT *, oc_customer.customer_id as id, oc_customer.custom_field as field_1, oc_address.custom_field as field_2, CONCAT(oc_customer.firstname, ' ', oc_customer.lastname) FROM oc_customer LEFT JOIN oc_address ON oc_customer.customer_id = oc_address.customer_id AND oc_customer.address_id = oc_address.address_id {$wh} ORDER BY oc_customer.date_added DESC ";
+                $sql = "SELECT *, oc_customer.customer_id as id, oc_customer.lastname as last, oc_customer.firstname as first, oc_customer.custom_field as field_1, oc_address.custom_field as field_2, CONCAT(oc_customer.firstname, ' ', oc_customer.lastname) FROM oc_customer LEFT JOIN oc_address ON oc_customer.customer_id = oc_address.customer_id AND oc_customer.address_id = oc_address.address_id {$wh} ORDER BY oc_customer.date_added DESC ";
 
                 $query = $this->db->query($sql)->rows;
 

@@ -1111,13 +1111,13 @@ class ControllerCustomerCustomer extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-//		if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-//			$this->error['firstname'] = $this->language->get('error_firstname');
-//		}
-//
-//		if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-//			$this->error['lastname'] = $this->language->get('error_lastname');
-//		}
+		if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
+			$this->error['firstname'] = $this->language->get('error_firstname');
+		}
+
+		if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
+			$this->error['lastname'] = $this->language->get('error_lastname');
+		}
 
 		if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $this->request->post['email'])) {
 			$this->error['email'] = $this->language->get('error_email');
@@ -1135,9 +1135,9 @@ class ControllerCustomerCustomer extends Controller {
 			}
 		}
 
-//		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
-//			$this->error['telephone'] = $this->language->get('error_telephone');
-//		}
+		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
+			$this->error['telephone'] = $this->language->get('error_telephone');
+		}
 
 		// Custom field validation
 		$this->load->model('customer/custom_field');
@@ -1145,8 +1145,33 @@ class ControllerCustomerCustomer extends Controller {
 		$custom_fields = $this->model_customer_custom_field->getCustomFields(array('filter_customer_group_id' => $this->request->post['customer_group_id']));
 
 		foreach ($custom_fields as $custom_field) {
+			if ($custom_field['name'] == '宇佐美カード上6桁') {
+				$card_6 = $custom_field['custom_field_id'];
+			}
+
+			if ($custom_field['name'] == '宇佐美カード下5桁') {
+				$card_5 = $custom_field['custom_field_id'];
+			}
+
 			if (($custom_field['location'] == 'account') && $custom_field['required'] && empty($this->request->post['custom_field'][$custom_field['custom_field_id']])) {
 				$this->error['custom_field'][$custom_field['custom_field_id']] = sprintf($this->language->get('error_custom_field'), $custom_field['name']);
+			}
+		}
+
+		if (!$this->request->post['password'] && !$this->request->post['confirm']) {
+			foreach ($this->request->post['custom_field'] as $k =>$v ) {
+				if ($k == $card_6) {
+					$pass_first = $v;
+				}
+
+				if ($k == $card_5) {
+					$pass_last = $v;
+				}
+
+				if (isset($pass_first) && isset($pass_last)) {
+					$this->request->post['password'] = $pass_first.$pass_last;
+					$this->request->post['confirm'] = $pass_first.$pass_last;
+				}
 			}
 		}
 
@@ -1162,37 +1187,37 @@ class ControllerCustomerCustomer extends Controller {
 
 		if (isset($this->request->post['address'])) {
 			foreach ($this->request->post['address'] as $key => $value) {
-//				if ((utf8_strlen($value['firstname']) < 1) || (utf8_strlen($value['firstname']) > 32)) {
-//					$this->error['address'][$key]['firstname'] = $this->language->get('error_firstname');
-//				}
-//
-//				if ((utf8_strlen($value['lastname']) < 1) || (utf8_strlen($value['lastname']) > 32)) {
-//					$this->error['address'][$key]['lastname'] = $this->language->get('error_lastname');
-//				}
+				if ((utf8_strlen($value['firstname']) < 1) || (utf8_strlen($value['firstname']) > 32)) {
+					$this->error['address'][$key]['firstname'] = $this->language->get('error_firstname');
+				}
+
+				if ((utf8_strlen($value['lastname']) < 1) || (utf8_strlen($value['lastname']) > 32)) {
+					$this->error['address'][$key]['lastname'] = $this->language->get('error_lastname');
+				}
 
 				if ((utf8_strlen($value['address_1']) < 3) || (utf8_strlen($value['address_1']) > 128)) {
 					$this->error['address'][$key]['address_1'] = $this->language->get('error_address_1');
 				}
 
-//				if ((utf8_strlen($value['city']) < 2) || (utf8_strlen($value['city']) > 128)) {
-//					$this->error['address'][$key]['city'] = $this->language->get('error_city');
-//				}
-//
-//				$this->load->model('localisation/country');
-//
-//				$country_info = $this->model_localisation_country->getCountry($value['country_id']);
-//
-//				if ($country_info && $country_info['postcode_required'] && (utf8_strlen($value['postcode']) < 2 || utf8_strlen($value['postcode']) > 10)) {
-//					$this->error['address'][$key]['postcode'] = $this->language->get('error_postcode');
-//				}
-//
-//				if ($value['country_id'] == '') {
-//					$this->error['address'][$key]['country'] = $this->language->get('error_country');
-//				}
-//
-//				if (!isset($value['zone_id']) || $value['zone_id'] == '') {
-//					$this->error['address'][$key]['zone'] = $this->language->get('error_zone');
-//				}
+				if ((utf8_strlen($value['city']) < 2) || (utf8_strlen($value['city']) > 128)) {
+					$this->error['address'][$key]['city'] = $this->language->get('error_city');
+				}
+
+				$this->load->model('localisation/country');
+
+				$country_info = $this->model_localisation_country->getCountry($value['country_id']);
+
+				if ($country_info && $country_info['postcode_required'] && (utf8_strlen($value['postcode']) < 2 || utf8_strlen($value['postcode']) > 15)) {
+					$this->error['address'][$key]['postcode'] = $this->language->get('error_postcode');
+				}
+
+				if ($value['country_id'] == '') {
+					$this->error['address'][$key]['country'] = $this->language->get('error_country');
+				}
+
+				if (!isset($value['zone_id']) || $value['zone_id'] == '') {
+					$this->error['address'][$key]['zone'] = $this->language->get('error_zone');
+				}
 
 				foreach ($custom_fields as $custom_field) {
 					if (($custom_field['location'] == 'address') && $custom_field['required'] && empty($value['custom_field'][$custom_field['custom_field_id']])) {
