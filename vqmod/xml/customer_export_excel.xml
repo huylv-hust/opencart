@@ -190,14 +190,14 @@
                 if ($zone_id && $country_id) {
                     $sql3 = "SELECT * FROM oc_zone WHERE zone_id = $zone_id AND country_id = $country_id";
                     $query3 = $this->db->query($sql3)->rows;
-                    $zone = $query2[0]['name'];
+                    $zone = $query3[0]['name'];
                 }
 
-                    $query[$k]['branch_code'] = $branch_code;
-                    $query[$k]['card_6'] = $card_6;
-                    $query[$k]['card_5'] = $card_5;
-                    $query[$k]['department'] = $department;
-                    $query[$k]['zone'] = $zone;
+                    $query[$k]['branch_code'] = isset($branch_code) ? $branch_code : '';
+                    $query[$k]['card_6'] = isset($card_6) ? $card_6 : '';
+                    $query[$k]['card_5'] = isset($card_5) ? $card_5 : '';
+                    $query[$k]['department'] = isset($department) ? $department : '';
+                    $query[$k]['zone'] = isset($zone) ? $zone : '';
                 }
 
 		return $query;
@@ -210,7 +210,7 @@
 
     <file path="admin/view/template/customer/customer_list.tpl">
         <operation>
-            <search position="after">
+            <search position="before">
                 <![CDATA[<a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>]]></search>
             <add>
                 <![CDATA[<a href="<?php echo $export; ?>" data-toggle="tooltip" title="<?php echo 'Export'; ?>" class="btn btn-success"><i class="glyphicon glyphicon-export"></i></a>]]></add>
