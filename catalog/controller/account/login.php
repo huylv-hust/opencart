@@ -195,7 +195,16 @@ class ControllerAccountLogin extends Controller {
 			'account/logout',
 			'account/forgotten',
 			'account/register',
-			'api/login'
+			'api/cart',
+			'api/coupon',
+			'api/currency',
+			'api/customer',
+			'api/login',
+			'api/order',
+			'api/payment',
+			'api/reward',
+			'api/shipping',
+			'api/voucher'
 		);
 
 		if (!$this->customer->isLogged() && !in_array($route, $ignore)) {

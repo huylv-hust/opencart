@@ -169,6 +169,7 @@ class ControllerSaleOrder extends Controller {
 				'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'date_modified' => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
 				'shipping_code' => $result['shipping_code'],
+				'preview'          => $this->url->link('sale/order/preview', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'view'          => $this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 				'edit'          => $this->url->link('sale/order/edit', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 			);
@@ -712,7 +713,7 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->load->view('sale/order_form.tpl', $data));
 	}
 
-	public function info() {
+	public function info($preview = null) {
 		$this->load->model('sale/order');
 
 		if (isset($this->request->get['order_id'])) {
@@ -1020,6 +1021,7 @@ class ControllerSaleOrder extends Controller {
 			foreach ($totals as $total) {
 				$data['totals'][] = array(
 					'title' => $total['title'],
+					'code'  => $total['code'],
 					'text'  => $this->currency->format($total['value'], $order_info['currency_code'], $order_info['currency_value']),
 				);
 			}
@@ -1285,6 +1287,12 @@ class ControllerSaleOrder extends Controller {
 			$data['header'] = $this->load->controller('common/header');
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['footer'] = $this->load->controller('common/footer');
+
+			if ($preview) {
+				$data['column_left'] = null;
+				$data['info'] = $order_info;
+				return $data;
+			}
 
 			$this->response->setOutput($this->load->view('sale/order_info.tpl', $data));
 		} else {
@@ -1957,5 +1965,10 @@ class ControllerSaleOrder extends Controller {
 		}
 
 		$this->response->setOutput($this->load->view('sale/order_shipping.tpl', $data));
+	}
+
+	public function preview() {
+		$data = $this->info(rand());
+		$this->response->setOutput($this->load->view('sale/order_preview.tpl', $data));
 	}
 }
