@@ -68,8 +68,8 @@
 						&nbsp;<small> - <?php echo $option['name']; ?>: <a href="<?php echo $option['href']; ?>"><?php echo $option['value']; ?></a></small>
 						<?php } ?>
 						<?php } ?></td>
-					<td class="text-right"><?php echo $product['quantity']; ?></td>
 					<td class="text-right"><?php echo $product['price']; ?></td>
+					<td class="text-right"><?php echo $product['quantity']; ?></td>
 					<td class="text-right"><?php echo $product['total']; ?></td>
 				</tr>
 				<?php } ?>
