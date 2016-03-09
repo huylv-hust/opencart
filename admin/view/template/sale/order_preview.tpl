@@ -29,15 +29,15 @@
 				</tr>
 				<tr>
 					<th class="col-sm-2 text-center">請求書送付先</th>
-					<td class="col-sm-10" colspan="3"><?php echo $info['payment_address_2']; ?></td>
+					<td class="col-sm-10" colspan="3"><?php echo '〒 '.$info['payment_postcode'].' '.$info['payment_zone'].' '.$info['payment_city'].' '.$info['payment_address_1'].' '.$info['payment_address_2'].'<br>TEL: '.$info['payment_tel']; ?></td>
 				</tr>
 				<tr>
 					<th class="col-sm-2 text-center">配達先</th>
-					<td class="col-sm-10" colspan="3"><?php echo $info['payment_company']; ?></td>
+					<td class="col-sm-10" colspan="3"><?php echo '〒 '.$info['shipping_postcode'].' '.$info['shipping_zone'].' '.$info['shipping_city'].' '.$info['shipping_address_1'].' '.$info['shipping_address_2'].'<br>TEL: '.$info['shipping_tel']; ?></td>
 				</tr>
 				<tr>
 					<th class="col-sm-2 text-center">会社名</th>
-					<td class="col-sm-4">㈱<?php echo $info['payment_firstname'].' '.$info['payment_lastname']; ?></td>
+					<td class="col-sm-4">㈱<?php echo $info['payment_company']; ?></td>
 					<th class="col-sm-2 text-center">ご発注担当者</th>
 					<td class="col-sm-4"><?php echo $info['payment_firstname'].' '.$info['payment_lastname']; ?></td>
 				</tr>

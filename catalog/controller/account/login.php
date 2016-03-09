@@ -194,20 +194,10 @@ class ControllerAccountLogin extends Controller {
 			'account/login',
 			'account/logout',
 			'account/forgotten',
-			'account/register',
-			'api/cart',
-			'api/coupon',
-			'api/currency',
-			'api/customer',
-			'api/login',
-			'api/order',
-			'api/payment',
-			'api/reward',
-			'api/shipping',
-			'api/voucher'
+			'account/register'
 		);
 
-		if (!$this->customer->isLogged() && !in_array($route, $ignore)) {
+		if (!$this->customer->isLogged() && (!in_array($route, $ignore) && !substr_count($route, 'api/'))) {
 			return $this->response->redirect($this->url->link('account/login'));
 		}
 	}

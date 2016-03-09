@@ -1291,6 +1291,13 @@ class ControllerSaleOrder extends Controller {
 			if ($preview) {
 				$data['column_left'] = null;
 				$data['info'] = $order_info;
+				$custom_fields = $this->model_customer_custom_field->getCustomFields($filter_data);
+				foreach ($custom_fields as $k => $v) {
+					if ($v['name'] == '電話番号') {
+						$data['info']['payment_tel'] = $data['info']['payment_custom_field'][$v['custom_field_id']];
+						$data['info']['shipping_tel'] = $data['info']['shipping_custom_field'][$v['custom_field_id']];
+					}
+				}
 				return $data;
 			}
 
