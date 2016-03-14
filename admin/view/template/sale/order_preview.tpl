@@ -39,7 +39,7 @@
 					<th class="col-sm-2 text-center">会社名</th>
 					<td class="col-sm-4">㈱<?php echo $info['payment_company']; ?></td>
 					<th class="col-sm-2 text-center">ご発注担当者</th>
-					<td class="col-sm-4"><?php echo $info['payment_firstname'].' '.$info['payment_lastname']; ?></td>
+					<td class="col-sm-4"><?php echo $firstname.' '.$lastname; ?></td>
 				</tr>
 			</table>
 		</div>
